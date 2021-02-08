@@ -15,7 +15,7 @@ Username:password = site_user:site_password
 
 database hostname = db
 
-database port = 3306
+database port = 3316
 
 
 ## Run
@@ -28,9 +28,9 @@ Run:
 
 docker-compose up -d
 
-Access web application at http://localhost:8080/app in browser
+Access web application at http://localhost:8880/app in browser
 
-Access phpmyadmin  http://localhost:8081/ in browser
+Access phpmyadmin  http://localhost:8888/ in browser
 
 Stop:
 
