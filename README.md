@@ -15,7 +15,7 @@ Username:password = site_user:site_password
 
 database hostname = db
 
-database port = 3316
+database port = 3306
 
 
 ## Run
