@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 # Define services
 services:
   # Database Service (Mysql)
@@ -7,40 +7,48 @@ services:
     #latest mysql will not work, use only version 5.5
     image: mysql:5.5
     environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: bookmap
-     MYSQL_USER: site_user
-     MYSQL_PASSWORD: site_password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookmap
+      MYSQL_USER: site_user
+      MYSQL_PASSWORD: site_password
     ports:
-     - 3316:3306
+      - 3306
     volumes:
-    - "./db:/docker-entrypoint-initdb.d"
+      - vols/db:/docker-entrypoint-initdb.d
+   
+
 
  # Database Management Service (phpMyAdmin)   
   phpmyadmin:
     depends_on:
-     - db
+      - db
     image: phpmyadmin/phpmyadmin
     ports:
-     - '8888:80'
+      - '80'
     environment:
-     PMA_HOST: db
-     MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
 
   web:
-    build: ./web/
-
+    image : oracle/glassfish
+    volumes:
+      - vols/war/app.war:/glassfish4/glassfish/domains/domain1/autodeploy/sample.war
     ports:
-      - "4848:4848"
-      - "8880:8080"
-      - "8181:8181"
+      - "4848"
+      - "8080"
+      - "8181"
     depends_on:
-     - db
-     - phpmyadmin
-
-    links:
       - db
       - phpmyadmin
-    
+    links:
+      - db
+      - phpmyadmin 
     environment:
-     MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+
+volumes:
+  vols:
+    driver: azure_file
+    driver_opts:
+    share_name: idm3share
+    storage_account_name: mystorageaccountidm32023
